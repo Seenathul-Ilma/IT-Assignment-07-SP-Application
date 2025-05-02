@@ -173,6 +173,7 @@ $('#item_tbody').on('click', 'tr', function () {
 
 // to search items by a data
 $(document).ready(function () {
+
     function filterItems() {
         var value = $(this).val().toLowerCase();
         $("#item_tbody tr").filter(function () {
@@ -393,7 +394,6 @@ let available_items = [];
 let orders_db = [];
 
 $(document).ready(function () {
-
     $("#search_order_item_input").prop("disabled", true);
     $("#search_order_item_btn").prop("disabled", true);
     $("#search_customer_input").prop("disabled", true);
@@ -801,3 +801,50 @@ function generateNextOrderId() {
     const modal = new bootstrap.Modal(document.getElementById("invoiceModal"));
     modal.show();
 };
+
+$(document).ready(function() {
+    $("#item-content").hide();
+    $("#customer-content").hide();
+    $("#orders-content").hide();
+    $("#invoice-content").hide();
+});
+
+$("#home-manage-btn").on("click", function () {
+    $("#dashboard-content").css("display", "block");
+    $("#item-content").css("display", "none");
+    $("#customer-content").css("display", "none");
+    $("#orders-content").css("display", "none");
+    $("#invoice-content").css("display", "none");
+});
+
+$("#item-manage-btn").on("click", function () {
+    $("#item-content").css("display", "block");
+    $("#dashboard-content").css("display", "none");
+    $("#customer-content").css("display", "none");
+    $("#orders-content").css("display", "none");
+    $("#invoice-content").css("display", "none");
+});
+
+$("#customer-manage-btn").on("click", function () {
+    $("#customer-content").css("display", "block");
+    $("#item-content").css("display", "none");
+    $("#dashboard-content").css("display", "none");
+    $("#orders-content").css("display", "none");
+    $("#invoice-content").css("display", "none");
+});
+
+$("#order-manage-btn").on("click", function () {
+    $("#orders-content").css("display", "block");
+    $("#item-content").css("display", "none");
+    $("#customer-content").css("display", "none");
+    $("#dashboard-content").css("display", "none");
+    $("#invoice-content").css("display", "none");
+});
+
+$("#invoice-manage-btn").on("click", function () {
+    $("#invoice-content").css("display", "block");
+    $("#item-content").css("display", "none");
+    $("#customer-content").css("display", "none");
+    $("#orders-content").css("display", "none");
+    $("#dashboard-content").css("display", "none");
+});
