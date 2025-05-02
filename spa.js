@@ -382,37 +382,37 @@ $(document).ready(function () {
 
 //////////////////// Order Related jQueries /////////////////////////////
 
-    // Sample items array (can be fetched from backend too)
-    let items = [];
-    let orders_db = [];
+// Sample items array (can be fetched from backend too)
+let items = [];
+let orders_db = [];
 
-    $(document).ready(function () {
+$(document).ready(function () {
 
     $("#search_order_item_input").prop("disabled", true);
     $("#search_order_item_btn").prop("disabled", true);
     $("#search_customer_input").prop("disabled", true);
     $("#search_customer_btn").prop("disabled", true);
     $("#finalize-order-place-btn").prop("disabled", true);
-    $(".card-body").css("pointer-events", "none").css("opacity", "0.6");
-    $("#dashboard-card").css("opacity", "1");
+    $("#order-available-item-card").css("pointer-events", "none").css("opacity", "0.6");
+    $("#order-items-card").css("pointer-events", "none").css("opacity", "0.6");
 
     items = [
-{name: "Toffee", price: 15.00, qoh: 20},
-{name: "Cake", price: 1200.00, qoh: 5},
-{name: "Chocolate", price: 160.00, qoh: 50},
-{name: "Lollipop", price: 10.00, qoh: 100},
-{name: "Biscuit", price: 100.00, qoh: 40},
-{name: "Marshmallows", price: 150.00, qoh: 80}
+        {name: "Toffee", price: 15.00, qoh: 20},
+        {name: "Cake", price: 1200.00, qoh: 5},
+        {name: "Chocolate", price: 160.00, qoh: 50},
+        {name: "Lollipop", price: 10.00, qoh: 100},
+        {name: "Biscuit", price: 100.00, qoh: 40},
+        {name: "Marshmallows", price: 150.00, qoh: 80}
     ];
     renderItems();
 });
 
-    function renderItems(filter = "") {
+function renderItems(filter = "") {
     const container = $("#order_item_tbody");
     container.empty();
 
     $.each(items.filter(item => item.name.toLowerCase().includes(filter.toLowerCase())), function (index, item) {
-    const card = `
+        const card = `
                     <div class="col-6 col-md-6 mb-3">
                         <div class="card h-100 bg-light text-dark shadow-sm">
                             <div class="card-body d-flex flex-column justify-content-between">
@@ -429,44 +429,44 @@ $(document).ready(function () {
                         </div>
                     </div>
                 `;
-    container.append(card);
-});
+        container.append(card);
+    });
 }
 
-    //renderItems();
+//renderItems();
 
-    // Search filter (live typing)
-    $("#search_order_item_input").on("keyup", function () {
+// Search filter (live typing)
+$("#search_order_item_input").on("keyup", function () {
     renderItems($(this).val());
 });
 
-    // Search button
-    $("#search_order_item_btn").on("click", function (e) {
+// Search button
+$("#search_order_item_btn").on("click", function (e) {
     e.preventDefault();
     renderItems($("#search_order_item_input").val());
 });
 
 
-    // get Customer list
-    const customerList = [
+// get Customer list
+const customerList = [
     {id: "C001", name: "John"},
     {id: "C002", name: "Mary"},
     {id: "C003", name: "Nimal"},
     {id: "C004", name: "Jeeva"},
     {id: "C005", name: "Priya"},
     {id: "C006", name: "Akshay"}
-    ];
-    const datalist_customers = $("#customerDatalistOptions");
+];
+const datalist_customers = $("#customerDatalistOptions");
 
-    $(document).ready(function () {
+$(document).ready(function () {
     $.each(customerList, function (index, customer) {
         let customerOption = `<option value="${customer.name}">`;
         datalist_customers.append(customerOption);
     });
 });
 
-    // add items to cart
-    $(document).on("click", ".add_to_cart_btn", function () {
+// add items to cart
+$(document).on("click", ".add_to_cart_btn", function () {
     const index = $(this).data("index");
     const item = items[index];
     let count = 1;
@@ -491,7 +491,7 @@ $(document).ready(function () {
     $("#item_cart").append(cartCard);
 });
 
-    $(document).on('click', ".increaseCount", function () {
+$(document).on('click', ".increaseCount", function () {
     const cardBody = $(this).closest(".card-body");
     const countSpans = cardBody.find(".item-cart-count");
     const totalItemAmountText = cardBody.find(".item-total-amount");
@@ -504,16 +504,16 @@ $(document).ready(function () {
 
     // Check quantity limit
     if (count > itemData.qoh) {
-    alert(`Only ${itemData.qoh} ${item}(s) available.`);
-    return;
-}
+        alert(`Only ${itemData.qoh} ${item}(s) available.`);
+        return;
+    }
 
     countSpans.text(count);
 
     totalItemAmountText.text((price * count).toFixed(2));
 });
 
-    $(document).on('click', ".decreaseCount", function () {
+$(document).on('click', ".decreaseCount", function () {
     const cardBody = $(this).closest(".card-body");
     const countSpans = cardBody.find(".item-cart-count");
     const totalItemAmountText = cardBody.find(".item-total-amount");
@@ -526,19 +526,19 @@ $(document).ready(function () {
 
     // Check quantity limit
     if (count < 1) {
-    return;
-}
+        return;
+    }
 
     countSpans.text(count);
 
     totalItemAmountText.text((price * count).toFixed(2));
 });
 
-    $(document).on("click", ".remove_from_cart_btn", function () {
+$(document).on("click", ".remove_from_cart_btn", function () {
     $(this).closest(".col-12").remove();
 });
 
-    $(document).on("click", "#finalize-order-place-btn", function (e) {
+$(document).on("click", "#finalize-order-place-btn", function (e) {
     e.preventDefault();
 
     const customerName = $("#search_customer_input").val().trim();
@@ -546,64 +546,180 @@ $(document).ready(function () {
 
     //if (!customerName || !customerList.includes(customerName)) {
     if (!customer) {
-    Swal.fire({
-    icon: 'error',
-    title: 'Customer not selected!',
-    text: 'Please select a valid customer before placing the order.',
-});
-    return;
-}
+        Swal.fire({
+            icon: 'error',
+            title: 'Customer not selected!',
+            text: 'Please select a valid customer before placing the order.',
+        });
+        return;
+    }
 
     const cartItems = $("#item_cart").children(".col-12, .col-md-12");
 
     if (cartItems.length === 0) {
-    Swal.fire({
-    icon: 'warning',
-    title: 'Cart is empty!',
-    text: 'Please add items before placing the order.',
-});
-    return;
-}
+        Swal.fire({
+            icon: 'warning',
+            title: 'Cart is empty!',
+            text: 'Please add items before placing the order.',
+        });
+        return;
+    }
 
     // If cart is not empty
     Swal.fire({
-    icon: 'success',
-    title: 'Order placed!',
-    text: 'Your order has been successfully submitted.',
-    confirmButtonText: 'OK'
-}).then(() => {
-    const order = {
-    orderId: $('#next_order_id').val(),
-    customer: customer.id,
-    items: []
-};
-    orders_db.push(order);
-    $("#item_cart").empty();
+        icon: 'success',
+        title: 'Order placed!',
+        text: 'Your order has been successfully submitted.',
+        confirmButtonText: 'OK'
+    }).then(() => {
+        const order = {
+            orderId: $('#next_order_id').val(),
+            customer: customer.id,
+            items: []
+        };
+        orders_db.push(order);
+        $("#item_cart").empty();
 
-    generateNextOrderId();
-    $("#search_customer_input").val("");
-    /*$("#search_item_input").prop("disabled", true);
-    $("#search_item_btn").prop("disabled", true);
-    $("#search_customer_input").prop("disabled", true);
-    $("#search_customer_btn").prop("disabled", true);
-    $("#finalize-order-place-btn").prop("disabled", true);
-    $(".card-body").css("pointer-events", "none").css("opacity", "0.6");*/
+        generateNextOrderId();
+        $("#search_customer_input").val("");
+        /*$("#search_item_input").prop("disabled", true);
+        $("#search_item_btn").prop("disabled", true);
+        $("#search_customer_input").prop("disabled", true);
+        $("#search_customer_btn").prop("disabled", true);
+        $("#finalize-order-place-btn").prop("disabled", true);
+        $(".card-body").css("pointer-events", "none").css("opacity", "0.6");*/
 
+    });
 });
-});
 
-    $(document).on("click", "#new_order_btn", function () {
+$(document).on("click", "#new_order_btn", function () {
     $("#search_order_item_input").prop("disabled", false);
     $("#search_order_item_btn").prop("disabled", false);
     $("#search_customer_input").prop("disabled", false);
     $("#search_customer_btn").prop("disabled", false);
     $("#finalize-order-place-btn").prop("disabled", false);
-    $(".card-body").css("pointer-events", "auto").css("opacity", "1");
+    $("#order-available-item-card").css("pointer-events", "auto").css("opacity", "1");
+    $("#order-items-card").css("pointer-events", "auto").css("opacity", "1");
 
     generateNextOrderId();
 });
 
-    function generateNextOrderId() {
+function generateNextOrderId() {
     const nextOrderId = 'O' + String(orders_db.length + 1).padStart(3, '0');
     $('#next_order_id').val(nextOrderId);
 }
+
+//////////////////// Invoice / Order history Related jQueries /////////////////////////////
+
+    let invoices = [];
+
+    $(document).ready(function() {
+    invoices = [
+        {invoiceId: "1", orderId: "OR001", customer: "C001", date: "2025-04-01", total: 4500.00},
+        {invoiceId: "2", orderId: "0R002", customer: "C002", date: "2025-04-02", total: 7800.00},
+        {invoiceId: "3", orderId: "0R003", customer: "C003", date: "2025-04-03", total: 12000.00}
+    ];
+
+    invoices.forEach(invoice => {
+    const row = `
+                                    <tr>
+                                        <th scope="row">${invoice.invoiceId}</th>
+                                        <td>${invoice.orderId}</td>
+                                        <td>${invoice.customer}</td>
+                                        <td>${invoice.date}</td>
+                                        <td>${invoice.total.toFixed(2)}</td>
+                                        <td>
+                                            <button class="btn btn-light text-dark btn-sm print_invoice_btn" style="width: 30px; height: 30px; padding: 0; font-size: 20px">
+                                                <i class="ti ti-printer"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                `;
+    $("#invoice_tbody").append(row);
+});
+});
+
+    $(document).on("click", ".print_invoice_btn", function () {
+    const receiptId = $(this).data("id");
+    const items = [
+{name: "Cake", price: 1200.00},
+{name: "Chocolate", price: 160.00, quantity: 3}
+    ];
+    const date = new Date().toLocaleDateString('en-LK');
+    const time = new Date().toLocaleTimeString('en-LK', {hour: '2-digit', minute: '2-digit'});
+    const subTotal = items.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
+    const tax = 0;
+    const total = subTotal + tax;
+
+    populateInvoice(items, receiptId, date, time, subTotal, tax, total);
+});
+
+    function populateInvoice(items, receiptId, date, time, subTotal, tax, total) {
+    const modalHtml = `
+                    <div class="modal fade" id="invoiceModal" tabindex="-1" aria-labelledby="invoiceModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen-sm-down">
+                            <div class="modal-content">
+                                <div class="modal-header bg-dark text-white">
+                                <h5 class="modal-title" id="invoiceModalLabel"><i class="ti ti-receipt"></i> RECEIPT</h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <div class="text-center mb-3">
+                                        <h6 class="mb-0">Bite Of Bliss</h6>
+                                        <p class="mb-0 small">31/5z, Main Street, Kalutara South</p>
+                                        <p class="mb-0 small">Email: bob@gmail.com</p>
+                                        <p class="small">Phone: +94712345678</p>
+                                    </div>
+                                    <hr class="my-2">
+                                    <div class="row mb-2">
+                                        <div class="col-8">Reciept Id: OR001</div>
+                                        <div class="col-4 text-end">Invoice No: 1</div>
+                                        <div class="col-8">Date: ${date}</div>
+                                        <div class="col-4 text-end">Time: ${time}</div>
+                                    </div>
+                                    <hr class="my-2">
+                                    <div id="invoice-items">
+                                        ${items.map(item => `
+                                            <div class="row">
+                                                <div class="col-7">${item.name}${item.quantity ? ' x ' + item.quantity : ''}</div>
+                                                <div class="col-5 text-end">Rs. ${(item.price * (item.quantity || 1)).toFixed(2)}</div>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                    <hr class="my-2">
+                                    <div class="row">
+                                        <div class="col-7">Sub Total</div>
+                                        <div class="col-5 text-end">Rs. ${subTotal.toFixed(2)}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-7">+ Tax</div>
+                                        <div class="col-5 text-end">Rs. ${tax.toFixed(2)}</div>
+                                    </div>
+                                    <hr class="my-2">
+                                    <div class="row">
+                                        <div class="col-7"><strong>Total</strong></div>
+                                        <div class="col-5 text-end"><strong>Rs. ${total.toFixed(2)}</strong></div>
+                                    </div>
+                                    <hr class="my-3">
+                                    <div class="text-center">
+                                        <p class="small">Thank You For Visiting!</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-dark">Print</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+
+    $("#invoiceModal").remove();
+
+    $("body").append(modalHtml);
+
+    // Show modal
+    const modal = new bootstrap.Modal(document.getElementById("invoiceModal"));
+    modal.show();
+};

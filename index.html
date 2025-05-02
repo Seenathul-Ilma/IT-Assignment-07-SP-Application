@@ -281,7 +281,7 @@
                                     <button class="btn btn-secondary text-dark btn-sm" id="search_order_item_btn" type="submit"><i class="ti ti-search"></i></button>
                                 </form>
                             </div>
-                            <div class="card-body overflow-auto" style="max-height: 500px; min-height: 500px;">
+                            <div class="card-body overflow-auto" id="order-available-item-card" style="max-height: 500px; min-height: 500px;">
                                 <div class="row mt-3" id="order_item_tbody">
                                     <!-- JS will inject item cards here (according to item list) -->
                                 </div>
@@ -310,7 +310,7 @@
                                     </datalist>
                                 </form>
                             </div>
-                            <div class="card-body overflow-auto" style="max-height: 400px; min-height: 400px;">
+                            <div class="card-body overflow-auto" id="order-items-card" style="max-height: 400px; min-height: 400px;">
                                 <div class="row mt-3" id="item_cart">
                                     <!-- JS will inject order item cards here (according to item list) -->
                                 </div>
@@ -321,6 +321,54 @@
                         </div>
                     </div>
 
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container-fluid content-container" id="invoice-content">
+        <div class="container-fluid invoice-page">
+            <nav class="navbar">
+                <div class="container-fluid">
+                    <a class="navbar-brand text-secondary">
+                        Invoices
+                    </a>
+                </div>
+            </nav>
+
+            <div class="col-sm-12 mb-6 mb-sm-0">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-sm table-hover table-striped w-100">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Invoice Ids</th>
+                                    <th scope="col">Order Ids</th>
+                                    <th scope="col">Customer</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Total</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody id="invoice_tbody">
+                                <!--<tr>
+                                    <th scope="row">OR001</th>
+                                    <td>O001</td>
+                                    <td>C001</td>
+                                    <td>2025-04-04</td>
+                                    <td>50000.00</td>
+                                    <td>
+                                        <button class="btn btn-light text-dark btn-sm add_to_cart_btn" style="width: 30px; height: 30px; padding: 0; font-size: 20px">
+                                            <i class="ti ti-printer"></i>
+                                        </button>
+                                    </td>
+                                </tr>-->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
 
