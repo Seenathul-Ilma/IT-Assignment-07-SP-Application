@@ -55,6 +55,7 @@ $('#item_save').on('click', function () {
 
         item_db.push(item_data);
         console.log(item_db);
+        syncAvailableItems();
 
         loadItemsOnTable();
 
@@ -98,6 +99,7 @@ $('#item_update').on('click', function () {
         loadItemsOnTable();
 
         console.log(item_db);
+        syncAvailableItems();
 
         Swal.fire({
             title: "Item updated successfully..!",
@@ -137,6 +139,7 @@ $('#item_delete').on('click', function () {
         // selected index and range (ensure only selected item deleting)
         item_db.splice(selectedItemIndex, 1);
         loadItemsOnTable();
+        syncAvailableItems();
 
         Swal.fire({
             title: "Deleted!",
@@ -248,6 +251,7 @@ $('#customer_save').on('click', function () {
         customer_db.push(customer_data);
         console.log(customer_db);
 
+        syncCustomers();
         loadCustomersOnTable();
 
 
@@ -289,6 +293,7 @@ $('#customer_update').on('click', function () {
         };
 
         loadCustomersOnTable();
+        syncCustomers();
 
         console.log(customer_db);
 
@@ -330,6 +335,7 @@ $('#customer_delete').on('click', function () {
         // selected index and range (ensure only that customer deleting)
         customer_db.splice(selectedCustomerIndex, 1);
         loadCustomersOnTable();
+        syncCustomers();
 
         Swal.fire({
             title: "Deleted!",
@@ -383,7 +389,7 @@ $(document).ready(function () {
 //////////////////// Order Related jQueries /////////////////////////////
 
 // Sample items array (can be fetched from backend too)
-let items = [];
+let available_items = [];
 let orders_db = [];
 
 $(document).ready(function () {
@@ -396,22 +402,31 @@ $(document).ready(function () {
     $("#order-available-item-card").css("pointer-events", "none").css("opacity", "0.6");
     $("#order-items-card").css("pointer-events", "none").css("opacity", "0.6");
 
-    items = [
+    /*available_items = [
         {name: "Toffee", price: 15.00, qoh: 20},
         {name: "Cake", price: 1200.00, qoh: 5},
         {name: "Chocolate", price: 160.00, qoh: 50},
         {name: "Lollipop", price: 10.00, qoh: 100},
         {name: "Biscuit", price: 100.00, qoh: 40},
         {name: "Marshmallows", price: 150.00, qoh: 80}
-    ];
-    renderItems();
+    ];*/
+    //renderItems();
 });
+
+function syncAvailableItems() {
+    available_items =  item_db.map(item => ({
+        name: item.name,
+        price: parseFloat(item.price),
+        qoh: parseInt(item.qoh)
+    }));
+    renderItems();
+}
 
 function renderItems(filter = "") {
     const container = $("#order_item_tbody");
     container.empty();
 
-    $.each(items.filter(item => item.name.toLowerCase().includes(filter.toLowerCase())), function (index, item) {
+    $.each(available_items.filter(item => item.name.toLowerCase().includes(filter.toLowerCase())), function (index, item) {
         const card = `
                     <div class="col-6 col-md-6 mb-3">
                         <div class="card h-100 bg-light text-dark shadow-sm">
@@ -448,27 +463,33 @@ $("#search_order_item_btn").on("click", function (e) {
 
 
 // get Customer list
-const customerList = [
+/*const customerList = [
     {id: "C001", name: "John"},
     {id: "C002", name: "Mary"},
     {id: "C003", name: "Nimal"},
     {id: "C004", name: "Jeeva"},
     {id: "C005", name: "Priya"},
     {id: "C006", name: "Akshay"}
-];
+];*/
+let customerList = [];
 const datalist_customers = $("#customerDatalistOptions");
 
-$(document).ready(function () {
+function syncCustomers() {
+    customerList = customer_db;
     $.each(customerList, function (index, customer) {
         let customerOption = `<option value="${customer.name}">`;
         datalist_customers.append(customerOption);
     });
+}
+
+$(document).ready(function () {
+    syncCustomers();
 });
 
 // add items to cart
 $(document).on("click", ".add_to_cart_btn", function () {
     const index = $(this).data("index");
-    const item = items[index];
+    const item = available_items[index];
     let count = 1;
     let itemTotalAmount = item.price * count;
     const cartCard = `
@@ -476,8 +497,8 @@ $(document).on("click", ".add_to_cart_btn", function () {
                         <div class="card h-100 bg-light text-dark shadow-sm">
                             <div class="card-body d-flex flex-column justify-content-between">
                                 <div class="text-start">
-                                    <h6 class="card-title mb-1">${item.name} x <span class="item-cart-count">${count}</span></h6>
-                                    <p class="card-text mb-2 item-total">Rs. ${item.price.toFixed(2)} x <span class="item-cart-count">${count}</span> = <span class="item-total-amount">${itemTotalAmount.toFixed(2)}</span></p>
+                                    <h6 class="card-title mb-1">${item.name} x <span class="item-cart-count-display">${count}</span></h6>
+                                    <p class="card-text mb-2 item-total">Rs. ${item.price.toFixed(2)} x <span class="item-cart-count-display">${count}</span> = <span class="item-total-amount">${itemTotalAmount.toFixed(2)}</span></p>
                                     <button class="btn btn-outline-dark rounded-circle btn-dark text-white btn-sm me-1 increaseCount" style="width: 20px; height: 20px; padding: 0;"><i class="ti ti-plus"></i></button><span class="item-cart-count">${count}</span>
                                     <button class="btn btn-outline-dark rounded-circle btn-dark text-white btn-sm me-1 decreaseCount" style="width: 20px; height: 20px; padding: 0;"><i class="ti ti-minus"></i></button>
                                 </div>
@@ -493,11 +514,12 @@ $(document).on("click", ".add_to_cart_btn", function () {
 
 $(document).on('click', ".increaseCount", function () {
     const cardBody = $(this).closest(".card-body");
+    const countDisplay = cardBody.find(".item-cart-count-display");
     const countSpans = cardBody.find(".item-cart-count");
     const totalItemAmountText = cardBody.find(".item-total-amount");
     const item = cardBody.find(".card-title").text().split(" x ")[0].trim();
-    const price = items.find(i => i.name === item).price;
-    const itemData = items.find(i => i.name === item);
+    const price = available_items.find(i => i.name === item).price;
+    const itemData = available_items.find(i => i.name === item);
 
     let count = parseInt($(countSpans[0]).text());
     count++;
@@ -509,16 +531,18 @@ $(document).on('click', ".increaseCount", function () {
     }
 
     countSpans.text(count);
+    countDisplay.text(count);
 
     totalItemAmountText.text((price * count).toFixed(2));
 });
 
 $(document).on('click', ".decreaseCount", function () {
     const cardBody = $(this).closest(".card-body");
+    const countDisplay = cardBody.find(".item-cart-count-display");
     const countSpans = cardBody.find(".item-cart-count");
     const totalItemAmountText = cardBody.find(".item-total-amount");
     const item = cardBody.find(".card-title").text().split(" x ")[0].trim();
-    const price = items.find(i => i.name === item).price;
+    const price = available_items.find(i => i.name === item).price;
     //const itemData = items.find(i => i.name === item);
 
     let count = parseInt($(countSpans[0]).text());
@@ -530,6 +554,7 @@ $(document).on('click', ".decreaseCount", function () {
     }
 
     countSpans.text(count);
+    countDisplay.text(count);
 
     totalItemAmountText.text((price * count).toFixed(2));
 });
@@ -565,6 +590,46 @@ $(document).on("click", "#finalize-order-place-btn", function (e) {
         return;
     }
 
+    // to get order details
+    const orderId = $("#next_order_id").val();
+    const orderedItems = [];
+
+    cartItems.each(function () {
+        const itemName = $(this).find(".card-title").text().split(" x ")[0].trim();
+        const itemQuantity = parseInt($(this).find(".item-cart-count").text().trim());
+        const itemPrice = Number(available_items.find(i => i.name === itemName).price);
+
+        const item = {name: itemName, quantity: itemQuantity, price: itemPrice};
+        orderedItems.push(item);
+        console.log("Item:", item.name, "Price:", item.price, "Quantity:", item.quantity);
+        console.log("Raw quantity text:", $(this).find(".item-cart-count").text());
+
+    });
+
+    const order = {
+        orderId: orderId,
+        customer: customerName,
+        available_items: orderedItems
+    };
+
+    orders_db.push(order);
+
+    const totalAmount = orderedItems.reduce((total, item) => total + (Number(item.price) * Number(item.quantity)), 0);
+    console.log("Item Prices:", orderedItems.map(item => item.price));
+    console.log("Calculated Total:", totalAmount);
+
+    const invoice = {
+        invoiceId: invoices.length + 1 ,
+        orderId: orderId,
+        customerName: customerName,
+        items: orderedItems,
+        totalAmount: Number(totalAmount.toFixed(2))
+    }
+
+    invoices.push(invoice);
+    console.log("Invoices Data:", invoices);
+    updateInvoiceTable();
+
     // If cart is not empty
     Swal.fire({
         icon: 'success',
@@ -575,9 +640,9 @@ $(document).on("click", "#finalize-order-place-btn", function (e) {
         const order = {
             orderId: $('#next_order_id').val(),
             customer: customer.id,
-            items: []
+            available_items: []
         };
-        orders_db.push(order);
+
         $("#item_cart").empty();
 
         generateNextOrderId();
@@ -605,7 +670,7 @@ $(document).on("click", "#new_order_btn", function () {
 });
 
 function generateNextOrderId() {
-    const nextOrderId = 'O' + String(orders_db.length + 1).padStart(3, '0');
+    const nextOrderId = 'OR' + String(orders_db.length + 1).padStart(3, '0');
     $('#next_order_id').val(nextOrderId);
 }
 
@@ -613,49 +678,62 @@ function generateNextOrderId() {
 
     let invoices = [];
 
-    $(document).ready(function() {
-    invoices = [
-        {invoiceId: "1", orderId: "OR001", customer: "C001", date: "2025-04-01", total: 4500.00},
-        {invoiceId: "2", orderId: "0R002", customer: "C002", date: "2025-04-02", total: 7800.00},
-        {invoiceId: "3", orderId: "0R003", customer: "C003", date: "2025-04-03", total: 12000.00}
-    ];
+    function updateInvoiceTable() {
+        $("#invoice_tbody").empty(); // Clear previous data
 
-    invoices.forEach(invoice => {
-    const row = `
-                                    <tr>
-                                        <th scope="row">${invoice.invoiceId}</th>
-                                        <td>${invoice.orderId}</td>
-                                        <td>${invoice.customer}</td>
-                                        <td>${invoice.date}</td>
-                                        <td>${invoice.total.toFixed(2)}</td>
-                                        <td>
-                                            <button class="btn btn-light text-dark btn-sm print_invoice_btn" style="width: 30px; height: 30px; padding: 0; font-size: 20px">
-                                                <i class="ti ti-printer"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                `;
-    $("#invoice_tbody").append(row);
-});
-});
+        if (invoices.length === 0) {
+            alert("No Invoices Available..!");
+            return;
+        }
+
+        let orderDate = new Date().toLocaleDateString('en-LK');
+
+
+        invoices.forEach(invoice => {
+            const row = `
+                    <tr>
+                        <th scope="row">${invoice.invoiceId}</th>
+                        <td>${invoice.orderId}</td>
+                        <td>${invoice.customerName}</td>
+                        <td>${orderDate}</td>
+                        <td>${invoice.totalAmount.toFixed(2)}</td>
+                        <td>
+                            <button class="btn btn-light text-dark btn-sm print_invoice_btn" data-id="${invoice.orderId}" style="width: 30px; height: 30px; padding: 0; font-size: 20px">
+                                <i class="ti ti-printer"></i>
+                            </button>
+                        </td>
+                    </tr>
+                 `;
+            $("#invoice_tbody").append(row);
+        });
+    }
 
     $(document).on("click", ".print_invoice_btn", function () {
     const receiptId = $(this).data("id");
-    const items = [
-{name: "Cake", price: 1200.00},
-{name: "Chocolate", price: 160.00, quantity: 3}
-    ];
-    const date = new Date().toLocaleDateString('en-LK');
-    const time = new Date().toLocaleTimeString('en-LK', {hour: '2-digit', minute: '2-digit'});
-    const subTotal = items.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
-    const tax = 0;
-    const total = subTotal + tax;
 
-    populateInvoice(items, receiptId, date, time, subTotal, tax, total);
-});
+        // Find the invoice details
+        const invoice = invoices.find(inv => inv.orderId === receiptId);
+        if (!invoice) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Invoice not found!',
+                text: 'Something went wrong, please try again.',
+            });
+            return;
+        }
+
+        const items = invoice.items;
+        const date = invoice.date || new Date().toLocaleDateString('en-LK');
+        const time = new Date().toLocaleTimeString('en-LK', {hour: '2-digit', minute: '2-digit'});
+        const subTotal = items.reduce((sum, item) => sum + (Number(item.price) * Number(item.quantity)), 0);
+        const tax = 0;
+        const total = subTotal + tax;
+
+        populateInvoice(items, receiptId, date, time, subTotal, tax, total);
+    });
 
     function populateInvoice(items, receiptId, date, time, subTotal, tax, total) {
-    const modalHtml = `
+        const modalHtml = `
                     <div class="modal fade" id="invoiceModal" tabindex="-1" aria-labelledby="invoiceModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen-sm-down">
                             <div class="modal-content">
@@ -673,8 +751,8 @@ function generateNextOrderId() {
                                     </div>
                                     <hr class="my-2">
                                     <div class="row mb-2">
-                                        <div class="col-8">Reciept Id: OR001</div>
-                                        <div class="col-4 text-end">Invoice No: 1</div>
+                                        <div class="col-8">Reciept Id: ${receiptId}</div>
+                                        <div class="col-4 text-end">Invoice No: ${invoices.length}</div>
                                         <div class="col-8">Date: ${date}</div>
                                         <div class="col-4 text-end">Time: ${time}</div>
                                     </div>
