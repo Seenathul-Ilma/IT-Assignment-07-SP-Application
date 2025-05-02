@@ -175,6 +175,90 @@
         </div>
     </div>
 
+    <div class="container-fluid content-container" id="customer-content">
+        <div class="container-fluid customer-page">
+
+            <!-- Page heading and search -->
+            <nav class="navbar">
+                <div class="container-fluid">
+                    <a class="navbar-brand text-secondary">
+                        Customers
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#addNewCustomerModal"><i class="ti ti-plus"></i> New</button>
+                    </a>
+                    <form class="d-flex search" role="search">
+                        <input class="form-control me-2" id="search_input" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-secondary text-dark btn-sm" type="submit" id="search_btn">Search</button>
+                    </form>
+                </div>
+            </nav>
+
+            <!-- (Left) form card & table (Right) -->
+            <div class="d-grid gap-2 col-12 mx-0">
+                <div class="row">
+                    <!-- Customer Form -->
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <div class="card card-sm">
+                            <div class="card-body">
+                                <form>
+                                    <fieldset id="customer_form_fieldset" disabled>
+                                        <div class="mb-1">
+                                            <label for="customer_id" class="form-label mb-0" style="font-size: 17px;">Id</label>
+                                            <input class="form-control" id="customer_id" type="text" value="" aria-label="readonly input example" readonly>                        </div>
+                                        <div class="mb-1">
+                                            <label for="name" class="form-label mb-0" style="font-size: 17px;">Name</label>
+                                            <input type="text" class="form-control form-control-sm" id="name">
+                                        </div>
+                                        <div class="mb-1">
+                                            <label for="phone" class="form-label mb-0" style="font-size: 17px;">Contact</label>
+                                            <input type="text" class="form-control form-control-sm" id="phone">
+                                        </div>
+                                        <div class="mb-2">
+                                            <label for="address" class="form-label mb-0" style="font-size: 17px;">Address</label>
+                                            <textarea class="form-control form-control-sm" id="address" style="height: 60px;"></textarea>
+                                        </div>
+                                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                            <button class="btn btn-primary btn-dark btn-sm" type="button" id="customer_reset">Reset</button>
+                                            <button class="btn btn-primary btn-dark btn-sm" type="button" id="customer_update">Edit</button>
+                                            <button class="btn btn-primary btn-dark btn-sm" type="button" id="customer_delete">Delete</button>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Customer Table -->
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-sm table-hover table-striped w-100">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Id</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Phone No.</th>
+                                            <th scope="col">Address</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="customer_tbody">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Button trigger modal -->
+        <!-- Modal -->
+
+    </div>
+
     <div class="models">
         <!-- Button trigger modal -->
         <!-- Modal -->
@@ -213,6 +297,40 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="button" class="btn btn-dark" id="item_save">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="addNewCustomerModal" tabindex="-1" aria-labelledby="exampleModalLabelCustomer" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabelCustomer">Add New Customer</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="mb-1">
+                                <label for="nextId" class="form-label mb-0" style="font-size: 17px;">Id</label>
+                                <input class="form-control" id="nextId" type="text" value="C001" aria-label="readonly input example" readonly>                        </div>
+                            <div class="mb-1">
+                                <label for="newName" class="form-label mb-0" style="font-size: 17px;">Name</label>
+                                <input type="text" class="form-control form-control-sm" id="newName">
+                            </div>
+                            <div class="mb-1">
+                                <label for="newPhone" class="form-label mb-0" style="font-size: 17px;">Contact</label>
+                                <input type="text" class="form-control form-control-sm" id="newPhone">
+                            </div>
+                            <div class="mb-2">
+                                <label for="newAddress" class="form-label mb-0" style="font-size: 17px;">Address</label>
+                                <textarea class="form-control form-control-sm" id="newAddress" style="height: 60px;"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-dark" id="customer_save">Save</button>
                     </div>
                 </div>
             </div>
