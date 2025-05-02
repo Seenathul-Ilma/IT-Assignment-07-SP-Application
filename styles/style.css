@@ -1,0 +1,41 @@
+/*
+* {
+    box-sizing: border-box;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.search {
+    flex-direction: row;
+}
+
+tr, th {
+    font-size: 15px;
+}*/
+
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.customer-page {
+    padding-top: 30px;
+    position: relative;
+    z-index: 1;
+}
+
+@media (max-width: 320px) {
+    table {
+        font-size: 12px;
+    }
+
+    table th,
+    table td {
+        padding: 0.3rem;
+        word-break: break-word;
+    }
+}
