@@ -72,7 +72,7 @@
                 <div class="row">
                     <div class="col-sm-6 mb-3 mb-sm-0">
                         <div class="card">
-                            <div class="card-body">
+                            <div class="card-body" id="dashboard-card">
                                 <h5 class="card-title">Welcome Back, <span>Admin</span></h5>
                                 <p class="card-text">You are logged in with full administrative privileges. Monitor, control, and secure the system in real time.
                                 </p>
@@ -257,6 +257,74 @@
         <!-- Button trigger modal -->
         <!-- Modal -->
 
+    </div>
+
+    <div class="container-fluid content-container" id="orders-content">
+        <div class="container-fluid order-page">
+            <nav class="navbar">
+                <div class="container-fluid">
+                    <a class="navbar-brand text-secondary">
+                        Orders
+                        <button type="button" id="new_order_btn" class="btn btn-secondary btn-sm"><i class="ti ti-plus"></i> New</button>
+                    </a>
+                </div>
+            </nav>
+
+            <div class="d-grid gap-2 col-12 mx-0">
+                <div class="row">
+                    <!-- Item List -->
+                    <div class="col-sm-7 mb-3 mb-sm-0">
+                        <div class="card card-sm">
+                            <div class="card-header">
+                                <form class="d-flex search" role="search">
+                                    <input class="form-control me-2" id="search_order_item_input" type="search" placeholder="Search Items.." aria-label="Search">
+                                    <button class="btn btn-secondary text-dark btn-sm" id="search_order_item_btn" type="submit"><i class="ti ti-search"></i></button>
+                                </form>
+                            </div>
+                            <div class="card-body overflow-auto" style="max-height: 500px; min-height: 500px;">
+                                <div class="row mt-3" id="order_item_tbody">
+                                    <!-- JS will inject item cards here (according to item list) -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-5 mb-3 mb-sm-0">
+                        <div class="card card-sm">
+                            <div class="card-header">
+                                <div class="row align-items-center mb-2">
+                                    <label for="next_order_id" class="col-auto col-form-label" style="font-size: 17px;">Order Id</label>
+                                    <div class="col">
+                                        <input class="form-control" id="next_order_id" type="text" value="" aria-label="readonly input example" readonly>
+                                    </div>
+                                </div>
+                                <form class="d-flex search" role="search">
+                                    <input class="form-control me-2" list="customerDatalistOptions" id="search_customer_input" type="search" placeholder="Search Customers.." aria-label="Search">
+                                    <button class="btn btn-secondary text-dark btn-sm" id="search_customer_btn" type="submit"><i class="ti ti-search"></i></button>
+                                    <datalist id="customerDatalistOptions">
+                                        <!--<option value="San Francisco">
+                                        <option value="New York">
+                                        <option value="Seattle">
+                                        <option value="Los Angeles">
+                                        <option value="Chicago">-->
+                                    </datalist>
+                                </form>
+                            </div>
+                            <div class="card-body overflow-auto" style="max-height: 400px; min-height: 400px;">
+                                <div class="row mt-3" id="item_cart">
+                                    <!-- JS will inject order item cards here (according to item list) -->
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button class="btn btn-secondary text-dark btn-sm w-100" id="finalize-order-place-btn" type="submit">Place Order</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
     </div>
 
     <div class="models">
