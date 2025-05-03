@@ -414,11 +414,13 @@ $(document).ready(function () {
 });
 
 function syncAvailableItems() {
-    available_items =  item_db.map(item => ({
-        name: item.name,
-        price: parseFloat(item.price),
-        qoh: parseInt(item.qoh)
-    }));
+    available_items = item_db
+        .filter(item => item.qoh > 0) // 🔄 Exclude items with QoH <= 0
+        .map(item => ({
+            name: item.name,
+            price: parseFloat(item.price),
+            qoh: parseInt(item.qoh)
+        }));
     renderItems();
 }
 
@@ -557,6 +559,7 @@ $(document).on('click', ".decreaseCount", function () {
     countDisplay.text(count);
 
     totalItemAmountText.text((price * count).toFixed(2));
+    syncAvailableItems();
 });
 
 $(document).on("click", ".remove_from_cart_btn", function () {
@@ -642,6 +645,32 @@ $(document).on("click", "#finalize-order-place-btn", function (e) {
             customer: customer.id,
             available_items: []
         };
+
+        orderedItems.forEach(item => {
+            const inventoryItem = item_db.find(i => i.name === item.name);
+            if (inventoryItem) {
+                if (inventoryItem.qoh - item.quantity < 0) {
+                    console.error(`Insufficient stock for ${item.name}.`);
+                    return; // Prevent QoH from going negative
+                }
+
+                inventoryItem.qoh -= item.quantity; // Reduce stock
+                console.log(`Updated QoH for ${item.name}:`, inventoryItem.qoh);
+
+                // Ensure item_db updates correctly
+                const itemIndex = item_db.findIndex(i => i.name === item.name);
+                if (itemIndex !== -1) {
+                    item_db[itemIndex].qoh = inventoryItem.qoh;
+                }
+            }
+        });
+        console.log(item_db);
+        console.log(available_items);
+        syncAvailableItems();
+        loadItemsOnTable();
+
+        console.log("updated item db: "+item_db);
+        console.log("updated available items: "+available_items);
 
         $("#item_cart").empty();
 
