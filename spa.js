@@ -415,7 +415,7 @@ $(document).ready(function () {
 
 function syncAvailableItems() {
     available_items = item_db
-        .filter(item => item.qoh > 0) // 🔄 Exclude items with QoH <= 0
+        .filter(item => item.qoh > 0) // Exclude items with QoH <= 0
         .map(item => ({
             name: item.name,
             price: parseFloat(item.price),
