@@ -299,15 +299,20 @@
                                     </div>
                                 </div>
                                 <form class="d-flex search" role="search">
+<!--
                                     <input class="form-control me-2" list="customerDatalistOptions" id="search_customer_input" type="search" placeholder="Search Customers.." aria-label="Search">
+-->
+                                    <select class="form-select" id="customerDropdown">
+                                        <option value="" disabled selected>Select a customer</option>
+                                    </select>
                                     <button class="btn btn-secondary text-dark btn-sm" id="search_customer_btn" type="submit"><i class="ti ti-search"></i></button>
-                                    <datalist id="customerDatalistOptions">
-                                        <!--<option value="San Francisco">
+                                    <!--<datalist id="customerDatalistOptions">
+                                        &lt;!&ndash;<option value="San Francisco">
                                         <option value="New York">
                                         <option value="Seattle">
                                         <option value="Los Angeles">
-                                        <option value="Chicago">-->
-                                    </datalist>
+                                        <option value="Chicago">&ndash;&gt;
+                                    </datalist>-->
                                 </form>
                             </div>
                             <div class="card-body overflow-auto" id="order-items-card" style="max-height: 400px; min-height: 400px;">

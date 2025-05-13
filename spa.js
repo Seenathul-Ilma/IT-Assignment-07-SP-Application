@@ -474,12 +474,18 @@ $("#search_order_item_btn").on("click", function (e) {
     {id: "C006", name: "Akshay"}
 ];*/
 let customerList = [];
+const datalist_customers = $("#customerDropdown");
+/*
 const datalist_customers = $("#customerDatalistOptions");
+*/
 
 function syncCustomers() {
     customerList = customer_db;
+
+    datalist_customers.find("option:not(:first)").remove();
+
     $.each(customerList, function (index, customer) {
-        let customerOption = `<option value="${customer.name}">`;
+        let customerOption = `<option value="${customer.name}">${customer.name}</option>`;
         datalist_customers.append(customerOption);
     });
 }
@@ -569,15 +575,22 @@ $(document).on("click", ".remove_from_cart_btn", function () {
 $(document).on("click", "#finalize-order-place-btn", function (e) {
     e.preventDefault();
 
-    const customerName = $("#search_customer_input").val().trim();
-    const customer = customerList.find(c => c.name === customerName);
-
-    //if (!customerName || !customerList.includes(customerName)) {
-    if (!customer) {
+    const customerName = $("#customerDropdown").val();
+    if (!customerName) {
         Swal.fire({
             icon: 'error',
             title: 'Customer not selected!',
             text: 'Please select a valid customer before placing the order.',
+        });
+        return;
+    }
+
+    const customer = customerList.find(c => c.name === customerName);
+    if (!customer) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Invalid customer!',
+            text: 'Selected customer does not exist.',
         });
         return;
     }
@@ -673,6 +686,7 @@ $(document).on("click", "#finalize-order-place-btn", function (e) {
         console.log("updated available items: "+available_items);
 
         $("#item_cart").empty();
+        $("#customerDropdown").val(""); // Clear customer selection
 
         generateNextOrderId();
         $("#search_customer_input").val("");
