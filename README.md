@@ -1,5 +1,5 @@
 # Zeenathul Ilma
-## Assignment 07 |  IT-POS-MVC-Single-Page-Application
+## Assignment 07 |  IT-POS-Single-Page-Application
 
 ## License
 
