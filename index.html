@@ -26,6 +26,11 @@
             z-index: 1;
         }
 
+        .nav-item a:hover {
+            font-size: 17px;
+            font-weight: 600;
+        }
+
     </style>
 
 </head>
@@ -41,24 +46,24 @@
             <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
                     <li class="nav-item">
-                        <a class="btn btn-light me-2" id="home-manage-btn">Home</a>
+                        <a class="btn btn-transparent me-2 border-0" id="home-manage-btn">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="btn btn-light me-2" id="customer-manage-btn">Customers</a>
+                        <a class="btn btn-transparent me-2 border-0" id="customer-manage-btn">Customers</a>
                     </li>
                     <li class="nav-item">
-                        <a class="btn btn-light me-2" id="item-manage-btn">Items</a>
+                        <a class="btn btn-transparent me-2 border-0" id="item-manage-btn">Items</a>
                     </li>
                     <li class="nav-item">
-                        <a class="btn btn-light me-2" id="order-manage-btn">Orders</a>
+                        <a class="btn btn-transparent me-2 border-0" id="order-manage-btn">Orders</a>
                     </li>
                     <li class="nav-item">
-                        <a class="btn btn-light me-2" id="invoice-manage-btn">Invoices</a>
+                        <a class="btn btn-transparent me-2 border-0" id="invoice-manage-btn">Invoices</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav">
-                    <li class="nav-item text-white text-nowrap">
-                        <a class="btn btn-light me-2">Log Out</a>
+                    <li class="nav-item text-nowrap">
+                        <a class="btn btn-transparent me-2 border-0">Log Out</a>
                     </li>
                 </ul>
             </div>
@@ -278,8 +283,8 @@
                         <div class="card card-sm">
                             <div class="card-header">
                                 <form class="d-flex search" role="search">
-                                    <input class="form-control me-2" id="search_order_item_input" type="search" placeholder="Search Items.." aria-label="Search">
-                                    <button class="btn btn-secondary text-dark btn-sm" id="search_order_item_btn" type="submit"><i class="ti ti-search"></i></button>
+                                    <input class="form-control form-control-sm me-2" id="search_order_item_input" type="search" placeholder="Search Items.." aria-label="Search">
+                                    <button class="btn btn-secondary text-dark btn-sm" id="search_order_item_btn" type="submit"><i class="ti ti-search fs-6"></i></button>
                                 </form>
                             </div>
                             <div class="card-body overflow-auto" id="order-available-item-card" style="max-height: 500px; min-height: 500px;">
@@ -296,17 +301,15 @@
                                 <div class="row align-items-center mb-2">
                                     <label for="next_order_id" class="col-auto col-form-label" style="font-size: 17px;">Order Id</label>
                                     <div class="col">
-                                        <input class="form-control" id="next_order_id" type="text" value="" aria-label="readonly input example" readonly>
+                                        <input class="form-control form-control-sm" id="next_order_id" type="text" value="" aria-label="readonly input example" readonly>
                                     </div>
                                 </div>
                                 <form class="d-flex search" role="search">
-<!--
-                                    <input class="form-control me-2" list="customerDatalistOptions" id="search_customer_input" type="search" placeholder="Search Customers.." aria-label="Search">
--->
-                                    <select class="form-select" id="customerDropdown">
+                                    <!--<input class="form-control me-2" list="customerDatalistOptions" id="search_customer_input" type="search" placeholder="Search Customers.." aria-label="Search">-->
+                                    <select class="form-select form-select-sm" id="customerDropdown">
                                         <option value="" disabled selected>Select a customer</option>
                                     </select>
-                                    <button class="btn btn-secondary text-dark btn-sm" id="search_customer_btn" type="submit"><i class="ti ti-search"></i></button>
+                                    <!--<button class="btn btn-dark text-light btn-sm" id="search_customer_btn" type="submit"><i class="ti ti-search fs-6"></i></button>-->
                                     <!--<datalist id="customerDatalistOptions">
                                         &lt;!&ndash;<option value="San Francisco">
                                         <option value="New York">
@@ -322,7 +325,7 @@
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <button class="btn btn-secondary text-dark btn-sm w-100" id="finalize-order-place-btn" type="submit">Place Order</button>
+                                <button class="btn btn-dark text-light btn-sm w-100" id="finalize-order-place-btn" type="submit">Place Order</button>
                             </div>
                         </div>
                     </div>

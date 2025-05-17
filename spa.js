@@ -458,12 +458,12 @@ function renderItems(filter = "") {
                         <div class="card h-100 bg-light text-dark shadow-sm">
                             <div class="card-body d-flex flex-column justify-content-between">
                                 <div class="text-start">
-                                    <h6 class="card-title mb-1">${item.name}</h6>
+                                    <h6 class="card-title fs-5 mb-1">${item.name}</h6>
                                     <p class="card-text mb-2">Rs. ${item.price.toFixed(2)}</p>
                                 </div>
                                 <div class="text-end mt-auto">
-                                    <button class="btn btn-dark btn-sm add_to_cart_btn" data-index="${index}">
-                                        <i class="ti ti-shopping-cart"></i>
+                                    <button class="btn btn-transparent btn-outline-dark border-0 btn-sm add_to_cart_btn" data-index="${index}">
+                                        <i class="bi bi-cart4 fs-4"></i>
                                     </button>
                                 </div>
                             </div>
@@ -535,7 +535,7 @@ $(document).on("click", ".add_to_cart_btn", function () {
                                     <button class="btn btn-outline-dark rounded-circle btn-dark text-white btn-sm me-1 decreaseCount" style="width: 20px; height: 20px; padding: 0;"><i class="ti ti-minus"></i></button>
                                 </div>
                                 <div class="text-end mt-auto">
-                                    <button class="btn btn-dark btn-sm remove_from_cart_btn"><i class="ti ti-trash"></i></button>
+                                    <button class="btn btn-transparent text-danger border-0 btn-sm remove_from_cart_btn"><i class="bi bi-trash3-fill fs-5"></i></i></button>
                                 </div>
                             </div>
                         </div>
