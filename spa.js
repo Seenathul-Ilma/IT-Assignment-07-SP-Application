@@ -135,23 +135,35 @@ $('#item_reset').on('click', function () {
 });
 
 $('#item_delete').on('click', function () {
-    if (selectedItemIndex !== -1) {
-        // selected index and range (ensure only selected item deleting)
-        item_db.splice(selectedItemIndex, 1);
-        loadItemsOnTable();
-        syncAvailableItems();
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            if (selectedItemIndex !== -1) {
+                // selected index and range (ensure only selected item deleting)
+                item_db.splice(selectedItemIndex, 1);
+                loadItemsOnTable();
+                syncAvailableItems();
 
-        Swal.fire({
-            title: "Deleted!",
-            text: "Item has been deleted successfully.",
-            icon: "success"
-        });
+                Swal.fire({
+                    title: "Deleted!",
+                    text: "Item has been deleted successfully.",
+                    icon: "success"
+                });
 
-        // reset form
-        $('#item_form_fieldset').prop('disabled', true);
-        $('#item_reset').click();
-        selectedItemIndex = -1;
-    }
+                // reset form
+                $('#item_form_fieldset').prop('disabled', true);
+                $('#item_reset').click();
+                selectedItemIndex = -1;
+            }
+        }
+    });
 });
 
 
@@ -332,23 +344,35 @@ $('#customer_reset').on('click', function () {
 });
 
 $('#customer_delete').on('click', function () {
-    if (selectedCustomerIndex !== -1) {
-        // selected index and range (ensure only that customer deleting)
-        customer_db.splice(selectedCustomerIndex, 1);
-        loadCustomersOnTable();
-        syncCustomers();
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            if (selectedCustomerIndex !== -1) {
+                // selected index and range (ensure only that customer deleting)
+                customer_db.splice(selectedCustomerIndex, 1);
+                loadCustomersOnTable();
+                syncCustomers();
 
-        Swal.fire({
-            title: "Deleted!",
-            text: "Customer has been deleted successfully.",
-            icon: "success"
-        });
+                Swal.fire({
+                    title: "Deleted!",
+                    text: "Customer has been deleted successfully.",
+                    icon: "success"
+                });
 
-        // reset form
-        $('#customer_form_fieldset').prop('disabled', true);
-        $('#customer_reset').click();
-        selectedCustomerIndex = -1;
-    }
+                // reset form
+                $('#customer_form_fieldset').prop('disabled', true);
+                $('#customer_reset').click();
+                selectedCustomerIndex = -1;
+            }
+        }
+    });
 });
 
 // select a customer by click on a table row
