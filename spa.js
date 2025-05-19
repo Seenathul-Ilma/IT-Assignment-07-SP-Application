@@ -724,6 +724,26 @@ $(document).on("click", "#finalize-order-place-btn", function (e) {
     });
 });
 
+// to search orders by a data
+$(document).ready(function () {
+
+    function filterOrders() {
+        var value = $(this).val().toLowerCase();
+        $("#invoice_tbody tr").filter(function () {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    }
+
+    // to filter orders at live (while typing)
+    $("#search_orderId_input").on("keyup", filterOrders);
+
+    // to filter orders after click search btn
+    $('#search_orderId_btn').on('click', function (e) {
+        e.preventDefault();
+        filterOrders();
+    });
+});
+
 $(document).on("click", "#new_order_btn", function () {
     $("#search_order_item_input").prop("disabled", false);
     $("#search_order_item_btn").prop("disabled", false);
